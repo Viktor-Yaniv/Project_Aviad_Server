@@ -44,7 +44,7 @@ async fetFiles(req, res) {
         
     } catch (error) {
         console.log(error);
-        return res.status(500).json({message:"Can not get files"})
+        return res.status(500).json({message:"לא ניתן לקבל קבצים"})
         
     }
     
@@ -56,7 +56,7 @@ async uploadFile(req, res) {
         const parent = await File.findOne({user:req.user.id,_id:req.body.parent});
         const user = await User.findOne({_id: req.user.id});
         if(user.usedSpace + file.size > user.diskSpace){
-            return res.status(400).json({message:"You don't have enough space"})
+            return res.status(400).json({message:"אין לך מספיק מקום"})
         }
        user.usedSpace = user.usedSpace + file.size;
 
@@ -69,7 +69,7 @@ async uploadFile(req, res) {
        }
 
        if(fs.existsSync(path)){
-       return res.status(400).json({message:"File already exists"})
+       return res.status(400).json({message:"הקובץ כבר קיים"})
        }
        file.mv(path);
        const type = file.name.split('.').pop();
@@ -88,7 +88,7 @@ async uploadFile(req, res) {
 
         
     } catch (error) {
-        return res.status(500).json({message:"Can not upload file"})
+        return res.status(500).json({message:"לא ניתן להעלות קובץ"})
         
     }
 }

@@ -11,8 +11,8 @@ const File = require('../models/File');
 
 
 router.post ('/register', [
-    check('email').isEmail().withMessage('Please enter a valid email'),
-    check('password').isLength({min: 6}).withMessage('Password must be at least 6 characters')
+    check('email').isEmail().withMessage('נא להזין אימייל חוקי'),
+    check('password').isLength({min: 6}).withMessage('הסיסמה חייבת להיות לפחות 6 תווים')
 ], 
 async (req, res) => {
 
@@ -25,13 +25,13 @@ async (req, res) => {
         const {email, password} = req.body;
         const candidate = await User.findOne({email});
         if (candidate) {
-            res.status(400).json({message: 'User already exists'});
+            res.status(400).json({message: 'המשתמש כבר קיים'});
         }
         const hashPassword = await bcrypt.hash(password, 8);
         const user = new User({email, password: hashPassword});
         await user.save();
         await fileService.createDir(new File({user: user._id, name:''}));
-        res.status(201).json({message: 'User created'});
+        res.status(201).json({message: 'משתמש שנוצר'});
 
 
    

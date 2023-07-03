@@ -6,7 +6,7 @@ const authRouter = require('./routes/auth.routes');
 const fileRouter = require('./routes/file.routes');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 app.use(fileUpload({}));
 app.use(cors());
@@ -18,7 +18,7 @@ app.use('/api/files', fileRouter);
 const start = async  () => {
  try {
     mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log('Connected to MongoDB');
+    console.log('מחובר למונגודב');
     app.listen(port, () => {
       console.log(`Port running on ${port}`);
     });
